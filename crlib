@@ -2,12 +2,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-#/ Usage:
+#/ Usage: crlib user/repository
 #/ Description:
 #/ Examples:
 #/ Options:
 #/   --help: Display this help message
-usage() { grep '^#/' "$0" | cut -c4- ; exit 0 ; }
+usage() { grep '^#/ ' "$0" | cut -c4- ; exit 0 ; }
 expr "$*" : ".*--help" > /dev/null && usage
 
 readonly LOG_FILE="/tmp/$(basename "$0").log"
@@ -26,7 +26,10 @@ cleanup() {
 }
 
 
-Do Stuff
+get_repo() {
+        echo 
+}
+
 
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
     trap cleanup EXIT
