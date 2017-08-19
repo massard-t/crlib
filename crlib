@@ -27,12 +27,18 @@ cleanup() {
 
 
 get_repo() {
-        echo 
+        IFS=/ read username repository <<< "$*"
+        echo $username
+        echo $repository
+}
+
+
+main() {
+        get_repo "$*"
 }
 
 
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
-    trap cleanup EXIT
-    # Script goes here
-    # ...
+    #trap cleanup EXIT
+    main "$*"
 fi
