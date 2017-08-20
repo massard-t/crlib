@@ -18,6 +18,11 @@ fatal()   { echo "[FATAL]   $*" | tee -a "$LOG_FILE" >&2 ; exit 1 ; }
 
 tmp_dir=$(mktemp)
 
+declare USERNAME
+declare REPOSITORY
+declare TAG
+
+
 cleanup() {
     # Remove temporary files
     # Restart services
@@ -34,11 +39,13 @@ get_repo() {
 
 
 main() {
+        info "Using temp directory: $tmp_dir"
         get_repo "$*"
 }
 
 
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
     #trap cleanup EXIT
+    [[ $# -eq 0 ]] && fatal "Please provide an argument using the following format: username/repository"
     main "$*"
 fi
