@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+#author massard-t
 set -euo pipefail
 IFS=$'\n\t'
 
 #/ Usage: crlib user/repository
-#/ Description:
-#/ Examples:
+#/ Description: Simple script allowing you to download a lib trough github
+#/ Examples: crlib massard-t/libmy
 #/ Options:
 #/   --help: Display this help message
 usage() { grep '^#/ ' "$0" | cut -c4- ; exit 0 ; }
@@ -47,8 +48,9 @@ main() {
 }
 
 
-if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
-    #trap cleanup EXIT
+if [[ "${BASH_SOURCE[0]}" = "$0" ]];
+then
+    trap cleanup EXIT
     [[ $# -eq 0 ]] && fatal "Please provide an argument using the following format: username/repository"
     main "$*"
 fi
