@@ -11,6 +11,7 @@ usage() { grep '^#/ ' "$0" | cut -c4- ; exit 0 ; }
 expr "$*" : ".*--help" > /dev/null && usage
 
 readonly LOG_FILE="/tmp/$(basename "$0").log"
+debug()    { echo "[DEBUG]    $*" | tee -a "$LOG_FILE" >&2 ; }
 info()    { echo "[INFO]    $*" | tee -a "$LOG_FILE" >&2 ; }
 warning() { echo "[WARNING] $*" | tee -a "$LOG_FILE" >&2 ; }
 error()   { echo "[ERROR]   $*" | tee -a "$LOG_FILE" >&2 ; }
@@ -33,14 +34,16 @@ cleanup() {
 
 get_repo() {
         IFS=/ read username repository <<< "$*"
-        echo $username
-        echo $repository
+        USERNAME="$username"
+        REPOSITORY="$repository"
 }
 
 
 main() {
-        info "Using temp directory: $tmp_dir"
+        debug "Using temp directory: $tmp_dir"
         get_repo "$*"
+        info "Username:         $USERNAME"
+        info "Repository:       $REPOSITORY"
 }
 
 
