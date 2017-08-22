@@ -20,6 +20,7 @@ fatal()   { echo "[FATAL]   $*" | tee -a "$LOG_FILE" >&2 ; exit 1 ; }
 
 tmp_dir=$(mktemp)
 
+declare BASE_URL="https://github.com"
 declare USERNAME
 declare REPOSITORY
 declare TAG
@@ -33,18 +34,25 @@ cleanup() {
 }
 
 
-get_repo() {
-        IFS=/ read username repository <<< "$*"
+get_infos() {
+        IFS='/:' read username repository tag <<< "$*"
         USERNAME="$username"
         REPOSITORY="$repository"
+        TAG="${tag:-master}"
+}
+
+get_archive() {
+        info "$BASE_URL/$USERNAME/$REPOSITORY/archive/$TAG.tar.gz"
 }
 
 
 main() {
         debug "Using temp directory: $tmp_dir"
-        get_repo "$*"
+        get_infos "$*"
         info "Username:         $USERNAME"
         info "Repository:       $REPOSITORY"
+        info "Tag:              $TAG"
+        get_archive
 }
 
 
