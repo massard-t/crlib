@@ -20,17 +20,16 @@ fatal()   { echo "[FATAL]   $*" | tee -a "$LOG_FILE" >&2 ; exit 1 ; }
 
 tmp_dir=$(mktemp)
 
-declare BASE_URL="https://github.com"
 declare USERNAME
 declare REPOSITORY
 declare TAG
+declare DOWNLOAD_URL
+declare BASE_URL="https://github.com"
 
 
 cleanup() {
-    # Remove temporary files
-    # Restart services
-    # ...
     rm -rf $tmp_dir
+    rm -rf $TAG.tar.gz # Dev purpose
 }
 
 
@@ -41,10 +40,16 @@ get_infos() {
         TAG="${tag:-master}"
 }
 
-get_archive() {
-        info "$BASE_URL/$USERNAME/$REPOSITORY/archive/$TAG.tar.gz"
+set_download_url() {
+        DOWNLOAD_URL="$BASE_URL/$USERNAME/$REPOSITORY/archive/$TAG.tar.gz"
+        info "Using download url: $DOWNLOAD_URL"
 }
 
+download_lib() {
+        info "Downloading..."
+        wget -q --progress=bar:force "$DOWNLOAD_URL"
+        info "Done."
+}
 
 main() {
         debug "Using temp directory: $tmp_dir"
@@ -52,7 +57,8 @@ main() {
         info "Username:         $USERNAME"
         info "Repository:       $REPOSITORY"
         info "Tag:              $TAG"
-        get_archive
+        set_download_url
+        download_lib
 }
 
 
