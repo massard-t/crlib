@@ -13,7 +13,7 @@ then
         OK=true
 else
         echo "This script will create a user bin directory at: $USERBIN."
-        read -r -p 'Proceed ? [y/N]' response
+        read -r -p 'Proceed ? [Y/n]' response
         case "$response" in
                 [yY])
                         OK=true
@@ -35,5 +35,9 @@ then
         mkdir $USERBIN
 fi
 
-git clone https://github.com/massard-t/crlib
+git clone https://github.com/massard-t/crlib "$USERBIN"
+
+echo "Done. Now simply add the following to your ~/.bash_profile or ~/.bashrc"
+echo 'export PATH=$PATH:~/bin/crlib/'
+echo 'In order to be able to globally use crlib'
 
