@@ -1,0 +1,39 @@
+#!/bin/bash
+#author massard-t
+
+set -e
+
+readonly USERBIN=~/bin/
+
+
+declare OK=false
+
+if [ $# -gt 0 ] && [ $1 == '-y' ]
+then
+        OK=true
+else
+        echo "This script will create a user bin directory at: $USERBIN."
+        read -r -p 'Proceed ? [y/N]' response
+        case "$response" in
+                [yY])
+                        OK=true
+                        ;;
+                *)
+                        OK=false
+                        ;;
+        esac
+fi
+
+if [ ! $OK ]
+then
+        >&2 echo "Aborting..."
+        exit 1
+fi
+
+if [ ! -d $USERBIN ]
+then
+        mkdir $USERBIN
+fi
+
+git clone https://github.com/massard-t/crlib
+
