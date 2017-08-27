@@ -5,7 +5,7 @@ IFS=$'\n\t'
 
 #/ Usage: crlib user/repository
 #/ Description: Simple script allowing you to download a lib trough github
-#/ Examples: crlib massard-t/libmy
+#/ Examples: crlib massard-t/libmy:1.0
 #/ Options:
 #/   --help: Display this help message
 usage() { grep '^#/ ' "$0" | cut -c4- ; exit 0 ; }
@@ -29,7 +29,7 @@ declare BASE_URL="https://github.com"
 
 cleanup() {
     rm -rf $tmp_dir
-    rm -rf $TAG.tar.gz # Dev purpose
+    #rm -rf $TAG.tar.gz # Dev purpose
 }
 
 
